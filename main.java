@@ -85,11 +85,11 @@ class project_1 {
     static void insertionSort(int arr[]) {
         int n = arr.length;
         
-        for (int j = 1; j < n; j++) {
+        for (int j = 0; j < n; j++) {
             int key = arr[j];
             int i = j - 1;
                 
-            while (i > 0 && arr[i] > key) {
+            while (i >= 0 && arr[i] > key) {
                 arr[i + 1] = arr[i];
                 i = i - 1;
             }
@@ -150,18 +150,18 @@ class project_1 {
         int n = A.length;
         
         for (int i = n / 2 - 1; i >= 0; i--)
-            heapify(A, n, i);
+            heapery(A, n, i);
         
         for (int i = n - 1; i > 0; i--) {
             int temp = A[0];
             A[0] = A[i];
             A[i] = temp;
             
-            heapify(A, i, 0);
+            heapery(A, i, 0);
         }
     }
 
-    static void heapify(int A[], int n, int i) {
+    static void heapery(int A[], int n, int i) {
         int j = i;
         int l = 2 * i; 
         int r = 2 * i + 1;
@@ -177,83 +177,100 @@ class project_1 {
             A[i] = A[j];
             A[j] = swap;
         
-            heapify(A, n, j);
+            heapery(A, n, j);
         }
     }
 
+
+     //**************************************************************************
+     // Quick Sort
+     //************************************************************************** 
+     static void quickSort(int[] A, int left, int right)
+     {
+         if (left >= right) {
+  
+             int p = new Random().nextInt(A.length);
+             int pivot = partition(A,p);
+ 
+             quickSort(A, left, pivot - 1);
+             quickSort(A, pivot + 1, right);
+         }
+     }
+ 
+ 
+  
+     static int partition(int[] A, int p)
+      {
+ 
+         int pivot = A[p];
+ 
+         int i = (left - 1);
+  
+         for (int j = left; j <= right - 1; j++) {
+  
+ 
+             if (A[j] < pivot) {
+                 i++;
+                 swap(A, i, j);
+             }
+         }
+         swap(A, i + 1, right);
+         return (i + 1);
+     }
+     
+       //**************************************************************************
+    // Modified Quick Sort
     //**************************************************************************
-    // Quick Sort
-    //************************************************************************** 
-    static void quickSort(int[] A, int left, int right) {
-        
-        if (left < right) {
-            int pivot = partition(A, left, right);
-            
-            quickSort(A, left, pivot - 1);
-            quickSort(A, pivot + 1, right);
-        }
-    }
+     
+    static void modQuickSort(int A[], int left, int right) {
+        if (left +15 <= right) {
+ 
 
-    static void swap(int[] arr, int i, int j) {
+            int pivot = modPartition(A, left, right);
+
+            modQuickSort(A, left, pivot - 1);
+            modQuickSort(A, pivot + 1, right);
+        }else{insertionSort(A);}
+    }
+    static int modPartition(int[] A, int left, int right)
+    {
+        int size = A.length;
+        int pivMid = size/2;
+        int pivNum = (left + right + pivMid)/3;
+
+        int pivot = A[pivNum];
+
+        int i = (left - 1);
+ 
+        for (int j = left; j <= right - 1; j++) {
+ 
+
+            if (A[j] < pivot) {
+                i++;
+                swap(A, i, j);
+            }
+        }
+        swap(A, i + 1, right);
+        return (i + 1);
+    }
+       
+     static void swap(int[] arr, int i, int j)
+    {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
     }
  
-    static int partition(int[] A, int left, int right) {
-        int pivot = A[right];
-        int i = (left - 1);
-        
-        for (int j = left; j <= right - 1; j++) {
-            if (A[j] < pivot) {
-                i++;
-                swap(A, i, j);
-            }
-        }
-        
-        swap(A, i + 1, right);
-        
-        return (i + 1);
-    }
 
-    //**************************************************************************
-    // Modified Quick Sort
-    //**************************************************************************
-    static void modQuickSort(int A[], int left, int right) {
-        
-        if (left < right) {
-            int pivot = modPartition(A, left, right);
-            
-            modQuickSort(A, left, pivot - 1);
-            modQuickSort(A, pivot + 1, right);
-        }
-    }
-    
-    static int modPartition(int[] A, int left, int right) {
-        int size = A.length;
-        int pivNum = size/2;
-        int pivot = A[pivNum];
-        int i = (left - 1);
-        
-        for (int j = left; j <= right - 1; j++) {
-            if (A[j] < pivot) {
-                i++;
-                swap(A, i, j);
-            }
-        }
-        
-        swap(A, i + 1, right);
-        
-        return (i + 1);
-    }
-    
 
-    //******************************************************************************************************
+
+
+    ///******************************************************************************************************
     // Driver Code
     //******************************************************************************************************
     public static void main(String args[]) {
         
-        int[] setSizes = {100, 2000, 5001, 7500, 10000, 15000};
+        int[] setSizes = {10, 100, 1000, 10000, 25000, 40000, 60000};
         int s = setSizes.length;        //The number of data sets sizes that will be tested
         int t = 10;                   //The number of data sets of each data set size that will be tested
         
@@ -273,35 +290,48 @@ class project_1 {
             for(int i = 0; i < s; i++) {                            //Loop runs all sort methods on the same data set before moving to the next data set
                 int[] arrayrd = randomArray(setSizes[i]);           //Creates Random Array the size of the current data set
                 
+               // System.out.println("Starting Array: ");
+               // System.out.println(Arrays.toString(arrayrd));
+
                 int[] temp = arrayrd;
                 long strttest = System.currentTimeMillis();         //Start Timing the Sort
                 insertionSort(temp);                                //Array Sorted Using Insertion Sort
                 long endtest = System.currentTimeMillis();          //End Timing the Sort
                 insertionSortResults[i][j] = endtest - strttest;    //Calculate Time to Execute
+               // System.out.println("Insertion Sort: ");
+               // System.out.println(Arrays.toString(temp));
                 
                 temp = arrayrd;
                 strttest = System.currentTimeMillis();              //Start Timing the Sort
                 mergeSort(temp);                                    //Array Sorted Using Merge Sort
                 endtest = System.currentTimeMillis();               //End Timing the Sort
                 mergeSortResults[i][j] = endtest - strttest;        //Calculate Time to Execute
+              //  System.out.println("Merge Sort: ");
+              //  System.out.println(Arrays.toString(temp));
                 
                 temp = arrayrd;
                 strttest = System.currentTimeMillis();              //Start Timing the Sort
                 heapSort(temp);                                     //Array Sorted Using Heap Sort
                 endtest = System.currentTimeMillis();               //End Timing the Sort
                 heapSortResults[i][j] = endtest - strttest;         //Calculate Time to Execute
+             //    System.out.println("Heap Sort: ");
+              //  System.out.println(Arrays.toString(temp));
                 
                 temp = arrayrd;
                 strttest = System.currentTimeMillis();              //Start Timing the Sort
                 quickSort(temp, 0, temp.length-1);                  //Array Sorted Using Quick Sort
                 endtest = System.currentTimeMillis();               //End Timing the Sort
                 quickSortResults[i][j] = endtest - strttest;        //Calculate Time to Execute
+             //   System.out.println("Quick Sort: ");
+             //   System.out.println(Arrays.toString(temp));
                 
                 temp = arrayrd;
                 strttest = System.currentTimeMillis();              //Start Timing the Sort
                 modQuickSort(temp, 0, temp.length-1);               //Array Sorted Using Modified Quick Sort
                 endtest = System.currentTimeMillis();               //End Timing the Sort
                 modQuickSortResults[i][j] = endtest - strttest;     //Calculate Time to Execute
+             //   System.out.println("Modified Quick Sort: ");
+             //   System.out.println(Arrays.toString(temp));
             }
         }
         
