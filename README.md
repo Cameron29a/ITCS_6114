@@ -1,14 +1,8 @@
-ITCS-6114 - Project 1
+ITCS-6114
 
 README
 
-  This project is written in Java and can be run using AWS or any other Java compiler. 
-  The project is a single file. Open the file and press run.
-
-  The program generates random data sets of varying sizes and our sorting algorithms
-  are then are tested with the same data sets. The runtimes for each sorting are stored
-  based on data set size. After testing all methods are run with all data set sizes, the
-  process repeats multiple times to obtain averages.   
+These projects were for the summer 2023 class ITCS-6114. 
 
 CONTACT
 
