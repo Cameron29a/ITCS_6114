@@ -1,0 +1,22 @@
+10 20 D
+A B 10
+A D 20
+A E 20
+A F 5
+A G 15
+B C 5
+B D 10
+C B 15
+C D 5
+D E 10
+E F 5
+G F 10
+H A 5
+H B 20
+H G 5
+I B 15
+I H 20
+I J 10
+J B 5
+J C 15
+H
